@@ -13,6 +13,7 @@ public class Board {
 		
 		this.rows = rows;
 		this.column = column;
+		
 		pieces = new Piece[rows][column];
 	}
 
