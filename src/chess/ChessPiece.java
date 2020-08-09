@@ -3,7 +3,9 @@ package chess;
 import boardgame.Board;
 import boardgame.Piece;
 
-public class ChessPiece extends Piece{
+//When changed Piece for abstract this extends class has been failed 
+//then changed this class to abstract yet
+public abstract class ChessPiece extends Piece{
 
 	private Color color;
 
