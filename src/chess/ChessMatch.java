@@ -8,14 +8,24 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	public ChessMatch() {
 		//Board board = new Board(8,8); is an error on this class
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;		
 		initialSetup();
 	}
 	
+	public int getTurn() {
+		return turn;
+	}
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
 	public ChessPiece[][] getPieces(){
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumn()];
 		
@@ -40,6 +50,7 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturePiece = makeMove(source, target);
+		nextTurn();
 		//Downcasting for ChessPiece capturePiece is type Piece
 		return (ChessPiece)capturePiece;
 	}
@@ -56,6 +67,10 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece on source position.");			
 		}
+		//Downcasting for (ChessPiece)
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+			throw new ChessException("The chosen pieces is not yours.");
+		}
 		// if is not movement possible throw exception
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
@@ -69,6 +84,10 @@ public class ChessMatch {
 		if (!board.piece(source).possibleMove(target)) {
 			throw new ChessException("The chosen piece cannot move to target position.");
 		}
+	}
+	private void nextTurn() {
+		turn++;
+		currentPlayer =(currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 	
 	private void placeNewPiece (char column, int row, ChessPiece piece) {
